@@ -2,6 +2,36 @@
 
 Apporo smart desktop releases. The app's What's new sheet reads this file; each release gets a `## <version> - <date>` heading.
 
+## 0.10.0 - 2026-11-14
+
+這一版新增 Windows 版，另外是修正和底層更新：網頁版的「連到這台電腦」改成肯多等一會兒，在 App 終端機裡跑的 Claude Code 需要你回應時會通知你，桌面版底層的 Electron 也升級了。This release adds a Windows version, plus fixes and an update under the hood: the web app's "Connect to this computer" is more patient, Claude Code running in the app's terminal now notifies you when it needs your input, and the desktop app's Electron runtime is updated.
+
+### 新功能 / New
+
+- 新增 Windows 版（Windows 10、11，64 位元）。安裝檔有程式碼簽章，Windows 顯示的發行者是 WOOW TECH CO., LTD.。只裝給目前登入的使用者，不需要系統管理員權限。
+  New: a Windows version (Windows 10 and 11, 64-bit). The installer is code-signed, and Windows shows WOOW TECH CO., LTD. as its publisher. It installs for the signed-in user only and does not need administrator rights.
+
+### 變更 / Changes
+
+- 桌面版底層的 Electron 從 44.2.0 升到 44.5.1（含通知相關的修正），安裝檔的打包工具也跟著升級。
+  The desktop app's Electron runtime moves from 44.2.0 to 44.5.1 (including a notification fix), and the tool that packs the installers is upgraded as well.
+
+### 修正 / Fixes
+
+- 網頁版：按「連到這台電腦」後，會多等瀏覽器的「允許存取本機」詢問，最長 30 秒（原本 6 秒就顯示找不到 daemon）；3 秒後按鈕會提示「請在瀏覽器的詢問視窗按『允許』」。剛按了「允許」卻還是失敗的話，再按一次按鈕。
+  Web app: after you press "Connect to this computer" it now waits up to 30 seconds for the browser's "allow access to your computer" prompt (it used to report "daemon not found" after 6), and after 3 seconds the button tells you to choose Allow in the browser's prompt. If it still fails after you chose Allow, press the button again.
+- 桌面版：電腦上沒有在跑 daemon 的時候，App 不再大約每秒啟動一次指令列去檢查狀態。
+  Desktop app: while no daemon runs on the computer, the app no longer starts the command line about once a second to check its status.
+- 在 App 的終端機裡跑 Claude Code 時，「需要你回應」的通知補上了：Claude Code 把原因放在 `notification_type`，以前這種通知不會觸發；現在 `idle_prompt` 和 `permission_prompt` 都會。
+  Claude Code running in the app's terminal: "needs your input" notifications now fire. Claude Code reports the reason in `notification_type`, so they never fired before; `idle_prompt` and `permission_prompt` now do.
+
+### 系統需求 / Requirements
+
+- macOS 13 以上，Apple 晶片或 Intel。
+  macOS 13 or later, Apple silicon or Intel.
+- Windows 10 或 11，64 位元（x64）。
+  Windows 10 or 11, 64-bit (x64).
+
 ## 0.9.0 - 2026-11-02
 
 網頁版上線：配對連結和 QR Code 現在打開 smart.apporo.ai，在瀏覽器裡就能連到你的電腦。The web app is live: pairing links and QR codes now open smart.apporo.ai, so you can reach your computer from a browser.
